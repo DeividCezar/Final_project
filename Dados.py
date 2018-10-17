@@ -50,7 +50,7 @@ serie_estadual_taxas = serie_estadual_taxas.drop('Ano', axis = 1)
 serie_estadual_taxas = serie_estadual_taxas.drop('Mês', axis = 1)
 
 serie_municipal.columns = ['Município', 'Ano', 'Mês', 'Região', 'Homicídio Doloso', 'Lesão Corporal seguida de Morte', 'Latrocínio', 'Homicídio por Intervenção Policial', 'Tentativa de Homicídio', 'Lesão Corporal Dolosa', 'Estrupo', 'Homicídio Culposo', 'Lesão Corporal Culposa', 'Roubo a Comércio', 'Roubo a Residência', 'Roubo de Veículo', 'Roubo de Carga', 'Roubo a Transeunte', 'Roubo em Coletivo', 'Roubo a Banco', 'Roubo a Caixa Eletrônico', 'Roubo de Celular', 'Roubo com Condução para Saque', 'Roubo a Bicicleta', 'Outros Roubos', 'Total de Roubos', 'Furto de Veículos', 'Furto de Bicicleta', 'Outros Furtos', 'Total de Furtos', 'Sequestro', 'Extorsão', 'Sequestro Relâmpago', 'Estelionato', 'Apreensão de Drogas', 'Recuperação de Veículos', 'Cumprimento de Mandado de Prisão', 'Ameaças', 'Pessoas Desaparecidas', 'Encontro de Cadáver', 'Encontro de Ossada', 'Indicador de Letalidade', 'Indicador de Roubo na Rua', 'Indicador de Roubo de Veículos', 'Registro de Ocorrências']
-serie_municipal.index = [serie_municipal['Ano'], serie_municipal['Mês'], serie_municipal['Município']]
+serie_municipal.index = [serie_municipal['Ano'], serie_municipal['Mês']]
 
 populacao_municipal.columns = ['Município', 'População do Município', 'Ano']
 populacao_municipal.index = [populacao_municipal['Ano'], populacao_municipal['Município']]
@@ -72,8 +72,7 @@ e = np.concatenate((g, e), axis=1)
 
 serie_municipal_taxas = pd.DataFrame(e)
 serie_municipal_taxas.columns = ['Região', 'Homicídio Doloso', 'Lesão Corporal seguida de Morte', 'Latrocínio', 'Homicídio por Intervenção Policial', 'Tentativa de Homicídio', 'Lesão Corporal Dolosa', 'Estrupo', 'Homicídio Culposo', 'Lesão Corporal Culposa', 'Roubo a Comércio', 'Roubo a Residência', 'Roubo de Veículo', 'Roubo de Carga', 'Roubo a Transeunte', 'Roubo em Coletivo', 'Roubo a Banco', 'Roubo a Caixa Eletrônico', 'Roubo de Celular', 'Roubo com Condução para Saque', 'Roubo a Bicicleta', 'Outros Roubos', 'Total de Roubos', 'Furto de Veículos', 'Furto de Bicicleta', 'Outros Furtos', 'Total de Furtos', 'Sequestro', 'Extorsão', 'Sequestro Relâmpago', 'Estelionato', 'Apreensão de Drogas', 'Recuperação de Veículos', 'Cumprimento de Mandado de Prisão', 'Ameaças', 'Pessoas Desaparecidas', 'Encontro de Cadáver', 'Encontro de Ossada', 'Indicador de Letalidade', 'Indicador de Roubo na Rua', 'Indicador de Roubo de Veículos', 'Registro de Ocorrências']
-serie_municipal_taxas.index = [serie_municipal['Ano'], serie_municipal['Mês'], serie_municipal['Município']]
+serie_municipal_taxas.index = [serie_municipal['Ano'], serie_municipal['Mês']]
 
-serie_municipal = serie_municipal.drop('Município', axis=1)
 serie_municipal = serie_municipal.drop('Ano', axis=1)
 serie_municipal = serie_municipal.drop('Mês', axis=1)
