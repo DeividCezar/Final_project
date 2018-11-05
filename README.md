@@ -1,4 +1,4 @@
-# Criminalidade do estado do Rio de Janeiro
+# Análise histórica da criminalidade no estado do Rio de Janeiro¶
 
 Analisamos as variáveis de criminalidade no estado de Rio de Janeiro como um todo, além de seus municípios em si. 
 
