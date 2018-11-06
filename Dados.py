@@ -57,7 +57,7 @@ for i in list(range(1991, 2018)):
     for j in list(range(10, 13)):
         Data.append('{}/{}'.format(j, i))
 for j in list(range(1, 9)):
-    Data.append('{}/2018'.format(j))
+    Data.append('0{}/2018'.format(j))
 Data = np.array(Data).reshape(332,1)
     
 se = np.array(serie_estadual)
@@ -84,7 +84,7 @@ for i in list(range(2003, 2018)):
     for j in list(range(10, 13)):
         Data.append('{}/{}'.format(j, i))
 for j in list(range(1, 9)):
-    Data.append('{}/2018'.format(j))
+    Data.append('0{}/2018'.format(j))
 Data = np.array(Data).reshape(188,1)
     
 se_t = np.array(serie_estadual_taxas)
@@ -120,7 +120,7 @@ for i in list(range(2014, 2018)):
 for j in list(range(1, 9)):
     
     for t in list(range(92)):
-        Data.append('{}/2018'.format(j))
+        Data.append('0{}/2018'.format(j))
     
 Data = np.array(Data).reshape(5152,1)
 
@@ -171,7 +171,7 @@ for i in list(range(2014, 2018)):
 for j in list(range(1, 9)):
     
     for t in list(range(92)):
-        Data.append('{}/2018'.format(j))
+        Data.append('0{}/2018'.format(j))
     
 Data = np.array(Data).reshape(5152,1)
 
