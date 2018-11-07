@@ -53,11 +53,11 @@ populacao_municipal = populacao_municipal[2019 > populacao_municipal.vano]
 Data = []
 for i in list(range(1991, 2018)):
     for j in list(range(1, 10)):
-        Data.append('0{}/{}'.format(j, i))
+        Data.append('{}/0{}'.format(i, j))
     for j in list(range(10, 13)):
-        Data.append('{}/{}'.format(j, i))
+        Data.append('{}/{}'.format(i, j))
 for j in list(range(1, 9)):
-    Data.append('0{}/2018'.format(j))
+    Data.append('2018/0{}'.format(j))
 Data = np.array(Data).reshape(332,1)
     
 se = np.array(serie_estadual)
@@ -80,11 +80,11 @@ serie_estadual = serie_estadual.drop('Data', axis=1)
 Data = []
 for i in list(range(2003, 2018)):
     for j in list(range(1, 10)):
-        Data.append('0{}/{}'.format(j, i))
+        Data.append('{}/0{}'.format(i, j))
     for j in list(range(10, 13)):
-        Data.append('{}/{}'.format(j, i))
+        Data.append('{}/{}'.format(i, j))
 for j in list(range(1, 9)):
-    Data.append('0{}/2018'.format(j))
+    Data.append('2018/0{}'.format(j))
 Data = np.array(Data).reshape(188,1)
     
 se_t = np.array(serie_estadual_taxas)
@@ -110,17 +110,17 @@ for i in list(range(2014, 2018)):
     for j in list(range(1, 10)):
         
         for t in list(range(92)):
-            Data.append('0{}/{}'.format(j, i))
+            Data.append('{}/0{}'.format(i, j))
         
     for j in list(range(10, 13)):
         
         for t in list(range(92)):
-            Data.append('{}/{}'.format(j, i))
+            Data.append('{}/{}'.format(i, j))
         
 for j in list(range(1, 9)):
     
     for t in list(range(92)):
-        Data.append('0{}/2018'.format(j))
+        Data.append('2018/0{}'.format(j))
     
 Data = np.array(Data).reshape(5152,1)
 
@@ -161,17 +161,17 @@ for i in list(range(2014, 2018)):
     for j in list(range(1, 10)):
         
         for t in list(range(92)):
-            Data.append('0{}/{}'.format(j, i))
+            Data.append('{}/0{}'.format(i, j))
         
     for j in list(range(10, 13)):
         
         for t in list(range(92)):
-            Data.append('{}/{}'.format(j, i))
+            Data.append('{}/{}'.format(i, j))
         
 for j in list(range(1, 9)):
     
     for t in list(range(92)):
-        Data.append('0{}/2018'.format(j))
+        Data.append('2018/0{}'.format(j))
     
 Data = np.array(Data).reshape(5152,1)
 
