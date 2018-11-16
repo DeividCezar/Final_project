@@ -59,10 +59,10 @@ serie_estadual.index = serie_estadual['Data']
 #### Removendo colunas não interessantes para a análise:
 serie_estadual_taxas = serie_estadual_taxas.drop(["pol_militares_mortos_serv", "pol_civis_mortos_serv", "fase", "prisoes", "apf_cmp", "apreensoes", "aaapai_cmba"], axis=1)
 
-#### Limpeza de dados inexistentes, transformando ' -   ' em Not a Number por motivos de tratabilidade:
+#### Limpeza de dados inexistentes, transformando ' -   ' em 0 por motivos de tratabilidade:
 ar_et = np.array(serie_estadual_taxas)
 boolean_et = ar_et == ' -   '
-ar_et[boolean_et] = np.nan
+ar_et[boolean_et] = 0
 serie_estadual_taxas = pd.DataFrame(ar_et)
 
 #### Criação da coluna Data:
