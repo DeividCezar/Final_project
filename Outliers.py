@@ -9,9 +9,9 @@ train, test = valores[0:size], valores[size:len(valores)]
 history = [x for x in train]
 previsao = list()
 for t in range(len(test)):
-    model = ARIMA(history, order=(5,1,0))
-    model_fit = model.fit(disp=0)
-    output = model_fit.forecast()
+    modelo = ARIMA(history, order=(5,1,0))
+    modelo_fit = modelo.fit(disp=0)
+    output = modelo_fit.forecast()
     yhat = output[0]
     previsao.append(yhat)
     obs = test[t]
