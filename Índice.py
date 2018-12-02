@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import Dados as dd
 import altair as alt
+import geopandas as gspd
 
 # Criação do índice de criminalidade e dos índices em grupo:
 
@@ -86,3 +87,24 @@ indices_agregados_est['Lesões e Letalidades'] = array_average_est[:, :8].sum(ax
 indices_agregados_est['Roubos'] = array_average_est[:, 8]
 indices_agregados_est['Furtos'] = array_average_est[:, 9]
 indices_agregados_est['Outros'] = array_average_est[:, 10:].sum(axis=1)
+
+# Importando layer do limite territorial:
+
+mapeamento = gspd.read_file('mapeamento.dbf')
+mapeamento = gspd.read_file('mapeamento.shp')
+mapeamento = gspd.read_file('mapeamento.shx')
+
+# Função para plotagem do mapa gráfico:
+
+def plot_map(m,y):
+    date = '{}/{}'.format(y,m)
+    complet_map = mapeamento.join(indices_mun.get_group(date)['Índice'].reset_index())
+    return(complet_map.plot(column='Índice', cmap='OrRd', legend=True, figsize=(18,9)))
+
+def plot_map_rm(m,y):
+    date = '{}/{}'.format(y,m)
+    complet_map = mapeamento.join(indices_mun.get_group(date)['Índice'].reset_index())
+    complet_map = complet_map.drop(['index'], axis=1)
+    complet_map = complet_map.join(indices_mun.get_group(date)['Região'].reset_index())
+    complet_map = complet_map[complet_map['Região'] != 'Interior']
+    return(complet_map.plot(column='Índice', cmap='OrRd', legend=True, figsize=(18,9)))
