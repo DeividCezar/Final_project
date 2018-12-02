@@ -39,12 +39,12 @@ smt_mun.columns = ['Homicídio Doloso', 'Lesão Corporal seguida de Morte', 'Lat
 array_average_mun = np.array(smt_mun)
 indices_mun = np.average(array_average_mun, weights = penas_criminais['Pena média'], axis = 1)
 indices_mun = pd.DataFrame(indices_mun)
+indices_mun.columns = ['Índice']
 indices_mun['Município'] = np.array(dd.serie_municipal_taxas['Município'])
 indices_mun['Região'] = np.array(dd.serie_municipal_taxas['Região'])
 indices_mun['Região'] = indices_mun['Região'].replace([1, 2, 3, 4], ['Baixada Fluminense', 'Rio de Janeiro', 'Grande Niterói', 'Interior'])
 indices_mun['Data'] = np.array(dd.serie_municipal_taxas['Data'])
-indices_mun.columns = ['Índice', 'Município', 'Região', 'Data']
-indices_mun = indices_mun.groupby('Data')
+indices_municipio = indices_mun.groupby('Data')
 
 ### Criação do índice de criminalidade para o Estado:
 
@@ -59,10 +59,10 @@ set_crimes.columns = ['Homicídio Doloso', 'Lesão Corporal seguida de Morte', '
 #### Criando índice de criminalidade:
 
 array_average_est = np.array(set_crimes)
-indices_est = np.average(array_average_est, weights = penas_criminais['Pena média'], axis=1)
-indices_est = pd.DataFrame(indices_est)
-indices_est['Data'] = np.array(dd.serie_estadual_taxas['Data'])
-indices_est.columns = ['Índice', 'Data']
+indices_estado = np.average(array_average_est, weights = penas_criminais['Pena média'], axis=1)
+indices_estado = pd.DataFrame(indices_estado)
+indices_estado.columns = ['Índice']
+indices_estado['Data'] = np.array(dd.serie_estadual_taxas['Data'])
 
 ## Criação dos índices agregados: Lesões e Letalidades, Roubos, Furtos e Outros:
 
@@ -98,13 +98,13 @@ mapeamento = gspd.read_file('mapeamento.shx')
 
 def plot_map(m,y):
     date = '{}/{}'.format(y,m)
-    complet_map = mapeamento.join(indices_mun.get_group(date)['Índice'].reset_index())
+    complet_map = mapeamento.join(indices_municipio.get_group(date)['Índice'].reset_index())
     return(complet_map.plot(column='Índice', cmap='OrRd', legend=True, figsize=(18,9)))
 
 def plot_map_rm(m,y):
     date = '{}/{}'.format(y,m)
-    complet_map = mapeamento.join(indices_mun.get_group(date)['Índice'].reset_index())
+    complet_map = mapeamento.join(indices_municipio.get_group(date)['Índice'].reset_index())
     complet_map = complet_map.drop(['index'], axis=1)
-    complet_map = complet_map.join(indices_mun.get_group(date)['Região'].reset_index())
+    complet_map = complet_map.join(indices_municipio.get_group(date)['Região'].reset_index())
     complet_map = complet_map[complet_map['Região'] != 'Interior']
     return(complet_map.plot(column='Índice', cmap='OrRd', legend=True, figsize=(18,9)))
