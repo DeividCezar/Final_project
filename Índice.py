@@ -88,6 +88,26 @@ indices_agregados_est['Roubos'] = array_average_est[:, 8]
 indices_agregados_est['Furtos'] = array_average_est[:, 9]
 indices_agregados_est['Outros'] = array_average_est[:, 10:].sum(axis=1)
 
+### Região dos Lagos:
+
+smt_rl_grupos = smt_mun_grupos[(smt_mun_grupos.Município == 'Araruama') | (smt_mun_grupos.Município == 'Saquarema') | (smt_mun_grupos.Município == 'Arraial do Cabo') | (smt_mun_grupos.Município == 'Armação dos Búzios') | (smt_mun_grupos.Município == 'São Pedro da Aldeia') | (smt_mun_grupos.Município == 'Iguaba Grande') | (smt_mun_grupos.Município == 'Cabo Frio')]
+indices_agregados_rl = smt_rl_grupos.groupby('Data').mean()
+indices_agregados_rl = indices_agregados_rl.reset_index()
+separate_data = indices_agregados_rl['Data'].str.split('/', expand=True)
+separate_data.columns=['Ano', 'Mês']
+indices_agregados_rl = indices_agregados_rl.join(separate_data['Ano'])
+indices_agregados_rl = indices_agregados_rl.join(separate_data['Mês'])
+
+### Região Metropolitana:
+
+smt_rm_grupos = smt_mun_grupos[smt_mun_grupos['Região'] != 'Interior']
+indices_agregados_rm = smt_rm_grupos.groupby('Data').mean()
+indices_agregados_rm = indices_agregados_rm.reset_index()
+separate_data_rm = indices_agregados_rm['Data'].str.split('/', expand=True)
+separate_data_rm.columns=['Ano', 'Mês']
+indices_agregados_rm = indices_agregados_rm.join(separate_data_rm['Ano'])
+indices_agregados_rm = indices_agregados_rm.join(separate_data_rm['Mês'])
+
 # Importando layer do limite territorial:
 
 mapeamento = gspd.read_file('mapeamento.dbf')
