@@ -108,6 +108,30 @@ separate_data_rm.columns=['Ano', 'Mês']
 indices_agregados_rm = indices_agregados_rm.join(separate_data_rm['Ano'])
 indices_agregados_rm = indices_agregados_rm.join(separate_data_rm['Mês'])
 
+### Capital:
+
+smt_rj_grupos = smt_mun_grupos[smt_mun_grupos['Município'] == 'Rio de Janeiro']
+indice_rj = smt_rj_grupos.reset_index()
+separate_data_rm = indice_rj['Data'].str.split('/', expand=True)
+separate_data_rm.columns=['Ano', 'Mês']
+indice_rj = indice_rj.join(separate_data_rm['Ano'])
+indice_rj = indice_rj.join(separate_data_rm['Mês'])
+
+# Função para plotagem das variáveis anteriores para análise de sazonalidade:
+
+def plot_chart(data_frame, variável):
+    chart = alt.Chart(data_frame).mark_line().encode(
+        x = 'Mês',
+        y = variável,
+        color = 'Ano:N'
+    ).properties(
+        width = 800,
+        height = 300,
+        title = 'Taxas de '+variável+' (a cada cem mil habitantes)'
+    )
+    return(chart)
+
+
 # Importando layer do limite territorial:
 
 mapeamento = gspd.read_file('mapeamento.dbf')
