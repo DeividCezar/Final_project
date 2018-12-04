@@ -5,12 +5,6 @@ import numpy as np
 
 ## Importação:
 
-### Importação da série estadual (valores absolutos)
-serie_estadual = pd.read_excel("Dados_Estado.xlsx")
-
-### Importação da série estadual (taxas por 100 mil habitantes)
-serie_estadual_taxas = pd.read_excel("Dados_taxas.xlsx")
-
 ### Importação da série municipal (valores absolutos)
 serie_municipal = pd.read_excel("Dados_Municipio.xlsx")
 
@@ -18,75 +12,6 @@ serie_municipal = pd.read_excel("Dados_Municipio.xlsx")
 populacao_municipal = pd.read_excel("PopulaçãoMunicipal.xlsm")
 
 ## Limpeza:
-
-### Limpeza de serie_estadual:
-
-#### Removendo colunas não interessantes para a análise (explicado no notebook 2):
-serie_estadual = serie_estadual.drop(["pol_militares_mortos_serv", "pol_civis_mortos_serv", "fase", "prisoes", "apf_cmp", "apreensoes", "aaapai_cmba"], axis=1)
-
-#### Limpeza de dados inexistentes, transformando ' ' em Not a Number por motivos de trababilidade:
-ar_e = np.array(serie_estadual)
-boolean_e = ar_e == ' '
-ar_e[boolean_e] = np.nan
-serie_estadual = pd.DataFrame(ar_e)
-##### Observação: problemas com DataFrame type nos levaram a usar o Numpy aqui.
-
-#### Criação da coluna Data:
-Data = []
-for i in list(range(1991, 2018)):
-    
-    for j in list(range(1, 10)):
-        Data.append('{}/0{}'.format(i, j))
-        
-    for j in list(range(10, 13)):
-        Data.append('{}/{}'.format(i, j))
-        
-for j in list(range(1, 9)):
-    Data.append('2018/0{}'.format(j))
-    
-Data = np.array(Data).reshape(332,1)
-    
-se = np.array(serie_estadual)
-se = np.concatenate((Data, se), axis = 1)
-serie_estadual = pd.DataFrame(se)
-
-#### Renomeando as colunas adequadamente e Data com index:
-serie_estadual.columns = ['Data', 'Ano', 'Mês', 'Homicídio Doloso', 'Lesão Corporal seguida de Morte', 'Latrocínio', 'Homicídio por Intervenção Policial', 'Tentativa de Homicídio', 'Lesão Corporal Dolosa', 'Estupro', 'Homicídio Culposo', 'Lesão Corporal Culposa', 'Roubo a Comércio', 'Roubo a Residência', 'Roubo de Veículo', 'Roubo de Carga', 'Roubo a Transeunte', 'Roubo em Coletivo', 'Roubo a Banco', 'Roubo a Caixa Eletrônico', 'Roubo de Celular', 'Roubo com Condução para Saque', 'Roubo a Bicicleta', 'Outros Roubos', 'Total de Roubos', 'Furto de Veículos', 'Furto de Bicicleta', 'Outros Furtos', 'Total de Furtos', 'Sequestro', 'Extorsão', 'Sequestro Relâmpago', 'Estelionato', 'Apreensão de Drogas', 'Recuperação de Veículos', 'Cumprimento de Mandado de Prisão', 'Ameaças', 'Pessoas Desaparecidas', 'Encontro de Cadáver', 'Encontro de Ossada', 'Indicador de Letalidade', 'Indicador de Roubo na Rua', 'Indicador de Roubo de Veículos', 'Registro de Ocorrências']
-serie_estadual.index = serie_estadual['Data']
-
-### Limpeza de serie_estadual_taxas:
-
-#### Removendo colunas não interessantes para a análise:
-serie_estadual_taxas = serie_estadual_taxas.drop(["pol_militares_mortos_serv", "pol_civis_mortos_serv", "fase", "prisoes", "apf_cmp", "apreensoes", "aaapai_cmba"], axis=1)
-
-#### Limpeza de dados inexistentes, transformando ' -   ' em 0 por motivos de tratabilidade:
-ar_et = np.array(serie_estadual_taxas)
-boolean_et = ar_et == ' -   '
-ar_et[boolean_et] = 0
-serie_estadual_taxas = pd.DataFrame(ar_et)
-
-#### Criação da coluna Data:
-Data = []
-for i in list(range(2003, 2018)):
-    
-    for j in list(range(1, 10)):
-        Data.append('{}/0{}'.format(i, j))
-        
-    for j in list(range(10, 13)):
-        Data.append('{}/{}'.format(i, j))
-        
-for j in list(range(1, 9)):
-    Data.append('2018/0{}'.format(j))
-    
-Data = np.array(Data).reshape(188,1)
-    
-se_t = np.array(serie_estadual_taxas)
-se_t = np.concatenate((Data, se_t), axis = 1)
-serie_estadual_taxas = pd.DataFrame(se_t)
-
-#### Renomeando as colunas adequadamente e Data como index:
-serie_estadual_taxas.columns = ['Data', 'Ano', 'Mês', 'Homicídio Doloso', 'Lesão Corporal seguida de Morte', 'Latrocínio', 'Homicídio por Intervenção Policial', 'Tentativa de Homicídio', 'Lesão Corporal Dolosa', 'Estupro', 'Homicídio Culposo', 'Lesão Corporal Culposa', 'Roubo a Comércio', 'Roubo a Residência', 'Roubo de Veículo', 'Roubo de Carga', 'Roubo a Transeunte', 'Roubo em Coletivo', 'Roubo a Banco', 'Roubo a Caixa Eletrônico', 'Roubo de Celular', 'Roubo com Condução para Saque', 'Roubo a Bicicleta', 'Outros Roubos', 'Total de Roubos', 'Furto de Veículos', 'Furto de Bicicleta', 'Outros Furtos', 'Total de Furtos', 'Sequestro', 'Extorsão', 'Sequestro Relâmpago', 'Estelionato', 'Apreensão de Drogas', 'Recuperação de Veículos', 'Cumprimento de Mandado de Prisão', 'Ameaças', 'Pessoas Desaparecidas', 'Encontro de Cadáver', 'Encontro de Ossada', 'Indicador de Letalidade', 'Indicador de Roubo na Rua', 'Indicador de Roubo de Veículos', 'Registro de Ocorrências']
-serie_estadual_taxas.index = serie_estadual_taxas['Data']
 
 ### Limpeza de serie_municipal:
 

@@ -46,24 +46,6 @@ indices_mun['Região'] = indices_mun['Região'].replace([1, 2, 3, 4], ['Baixada 
 indices_mun['Data'] = np.array(dd.serie_municipal_taxas['Data'])
 indices_municipio = indices_mun.groupby('Data')
 
-### Criação do índice de criminalidade para o Estado:
-
-#### Excluindo colunas desnecessárias para o índice:
-set_crimes = dd.serie_estadual_taxas.drop(['Data', 'Ano', 'Mês', 'Homicídio por Intervenção Policial', 'Roubo a Comércio', 'Roubo a Residência', 'Roubo de Veículo', 'Roubo de Carga', 'Roubo a Transeunte', 'Roubo em Coletivo', 'Roubo a Banco', 'Roubo a Caixa Eletrônico', 'Roubo de Celular', 'Roubo com Condução para Saque', 'Roubo a Bicicleta', 'Outros Roubos',  'Furto de Veículos', 'Furto de Bicicleta', 'Outros Furtos', 'Apreensão de Drogas', 'Recuperação de Veículos', 'Cumprimento de Mandado de Prisão', 'Pessoas Desaparecidas', 'Encontro de Cadáver', 'Encontro de Ossada', 'Indicador de Letalidade', 'Indicador de Roubo na Rua', 'Indicador de Roubo de Veículos', 'Registro de Ocorrências'], axis=1)
-
-set_crimes = np.array(set_crimes)
-set_crimes = pd.DataFrame(set_crimes, dtype=float)
-
-set_crimes.columns = ['Homicídio Doloso', 'Lesão Corporal seguida de Morte', 'Latrocínio', 'Tentativa de Homicídio', 'Lesão Corporal Dolosa', 'Estupro', 'Homicídio Culposo', 'Lesão Corporal Culposa', 'Total de Roubos', 'Total de Furtos', 'Sequestro', 'Extorsão', 'Sequestro Relâmpago', 'Estelionato', 'Ameaças']
-
-#### Criando índice de criminalidade:
-
-array_average_est = np.array(set_crimes)
-indices_estado = np.average(array_average_est, weights = penas_criminais['Pena média'], axis=1)
-indices_estado = pd.DataFrame(indices_estado)
-indices_estado.columns = ['Índice']
-indices_estado['Data'] = np.array(dd.serie_estadual_taxas['Data'])
-
 ## Criação dos índices agregados: Lesões e Letalidades, Roubos, Furtos e Outros:
 
 ### Município:
@@ -78,77 +60,3 @@ smt_mun_grupos['Roubos'] = array_average_mun[:, 8]
 smt_mun_grupos['Furtos'] = array_average_mun[:, 9]
 smt_mun_grupos['Outros'] = array_average_mun[:, 10:].sum(axis=1)
 indices_agregados_mun = smt_mun_grupos.groupby('Data')
-
-### Estado:
-
-indices_agregados_est = pd.DataFrame()
-indices_agregados_est['Data'] = np.array(dd.serie_estadual_taxas['Data'])
-indices_agregados_est['Lesões e Letalidades'] = array_average_est[:, :8].sum(axis=1)
-indices_agregados_est['Roubos'] = array_average_est[:, 8]
-indices_agregados_est['Furtos'] = array_average_est[:, 9]
-indices_agregados_est['Outros'] = array_average_est[:, 10:].sum(axis=1)
-
-### Região dos Lagos:
-
-smt_rl_grupos = smt_mun_grupos[(smt_mun_grupos.Município == 'Araruama') | (smt_mun_grupos.Município == 'Saquarema') | (smt_mun_grupos.Município == 'Arraial do Cabo') | (smt_mun_grupos.Município == 'Armação dos Búzios') | (smt_mun_grupos.Município == 'São Pedro da Aldeia') | (smt_mun_grupos.Município == 'Iguaba Grande') | (smt_mun_grupos.Município == 'Cabo Frio')]
-indices_agregados_rl = smt_rl_grupos.groupby('Data').mean()
-indices_agregados_rl = indices_agregados_rl.reset_index()
-separate_data = indices_agregados_rl['Data'].str.split('/', expand=True)
-separate_data.columns=['Ano', 'Mês']
-indices_agregados_rl = indices_agregados_rl.join(separate_data['Ano'])
-indices_agregados_rl = indices_agregados_rl.join(separate_data['Mês'])
-
-### Região Metropolitana:
-
-smt_rm_grupos = smt_mun_grupos[smt_mun_grupos['Região'] != 'Interior']
-indices_agregados_rm = smt_rm_grupos.groupby('Data').mean()
-indices_agregados_rm = indices_agregados_rm.reset_index()
-separate_data_rm = indices_agregados_rm['Data'].str.split('/', expand=True)
-separate_data_rm.columns=['Ano', 'Mês']
-indices_agregados_rm = indices_agregados_rm.join(separate_data_rm['Ano'])
-indices_agregados_rm = indices_agregados_rm.join(separate_data_rm['Mês'])
-
-### Capital:
-
-smt_rj_grupos = smt_mun_grupos[smt_mun_grupos['Município'] == 'Rio de Janeiro']
-indice_rj = smt_rj_grupos.reset_index()
-separate_data_rm = indice_rj['Data'].str.split('/', expand=True)
-separate_data_rm.columns=['Ano', 'Mês']
-indice_rj = indice_rj.join(separate_data_rm['Ano'])
-indice_rj = indice_rj.join(separate_data_rm['Mês'])
-
-# Função para plotagem das variáveis anteriores para análise de sazonalidade:
-
-def plot_chart(data_frame, variável):
-    chart = alt.Chart(data_frame).mark_line().encode(
-        x = 'Mês',
-        y = variável,
-        color = 'Ano:N'
-    ).properties(
-        width = 800,
-        height = 300,
-        title = 'Taxas de '+variável+' (a cada cem mil habitantes)'
-    )
-    return(chart)
-
-
-# Importando layer do limite territorial:
-
-mapeamento = gspd.read_file('mapeamento.dbf')
-mapeamento = gspd.read_file('mapeamento.shp')
-mapeamento = gspd.read_file('mapeamento.shx')
-
-# Função para plotagem do mapa gráfico:
-
-def plot_map(m,y):
-    date = '{}/{}'.format(y,m)
-    complet_map = mapeamento.join(indices_municipio.get_group(date)['Índice'].reset_index())
-    return(complet_map.plot(column='Índice', cmap='OrRd', legend=True, figsize=(18,9)))
-
-def plot_map_rm(m,y):
-    date = '{}/{}'.format(y,m)
-    complet_map = mapeamento.join(indices_municipio.get_group(date)['Índice'].reset_index())
-    complet_map = complet_map.drop(['index'], axis=1)
-    complet_map = complet_map.join(indices_municipio.get_group(date)['Região'].reset_index())
-    complet_map = complet_map[complet_map['Região'] != 'Interior']
-    return(complet_map.plot(column='Índice', cmap='OrRd', legend=True, figsize=(18,9)))
