@@ -126,6 +126,11 @@ mapa_rj_destacado = mapeamento.join(v_rj)
 # Função para plotagem dos índices agregados:
 
 def plot_chart(data_frame, variável):
+    '''
+    data_frame: [s.indices_agregados_rl, s.indices_agregados_rm, s.indice_rj];
+    variável: ['Lesões e Letalidades', 'Roubos', 'Furtos', 'Outros']
+    Esta função retorna um gráfico de linha da váriavel para cada ano do DataFrame/Região indicado.
+    '''
     chart = alt.Chart(data_frame).mark_line().encode(
         x = 'Mês',
         y = variável,
