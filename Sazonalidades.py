@@ -136,17 +136,3 @@ def plot_chart(data_frame, variável):
         title = 'Taxas criminais - '+variável+' (a cada cem mil habitantes)'
     )
     return(chart)
-
-    
-# Funções para plotagem do mapa gráfico:
-
-## Regiões:
-def plot_regioes():
-    complet_map = mapeamento.join(i.indices_municipio.get_group('2014/01'))
-    complet_map = complet_map.plot(column='Região', cmap='Paired', legend=True, figsize=(18,9))
-    return complet_map
-
-def plot_map(m,y):
-    date = '{}/{}'.format(y,m)
-    complet_map = mapeamento.join(i.indices_agregados_mun.get_group(date)['Furtos'].reset_index())
-    return(complet_map.plot(column='Furtos', cmap='OrRd', legend=True, figsize=(12,5)))
