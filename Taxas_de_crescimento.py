@@ -1,12 +1,14 @@
 import pandas as pd
 import numpy as np
 import Índice as ind
-#import geopandas as gspd
 
 # A seguinte função nos dá (um DataFrame com) a taxa de crescimento de uma variável de cada região:
 def taxa_de_crescimento(tipo):
-    
+    '''
+    tipo: ['Índice de criminalidade', 'Roubos', 'Furtos', 'Lesões e Letalidades', 'Outros']. Esta função retorna, para o índice indicado, um DataFrame contendo uma coluna especificando a data (ano/mês), uma coluna especificando a região e uma coluna contendo as taxas de crescimento do índice, ordenado de acordo com a data e a região.
+    '''
     if tipo == 'Índice de criminalidade':
+
         
         # gerando o índice de criminalidade por região:
         indices_regioes = ind.indices_mun.drop('Município', axis=1)
@@ -62,6 +64,9 @@ def taxa_de_crescimento(tipo):
 # A seguinte função nos dá (um DataFrame com) a taxa de crescimento relativo (a diferença entre as taxas de crescimento de uma variável de 
 # uma determinada região e as taxas de crescimento da mesma variável na capital Rio de Janeiro):
 def taxa_de_crescimento_relativo(tipo):
+    '''
+    tipo: ['Índice de criminalidade', 'Roubos', 'Furtos', 'Lesões e Letalidades', 'Outros']. Esta função retorna, para o índice indicado, um DataFrame contendo uma coluna especificando a data (ano/mês), uma coluna especificando a região e uma coluna contendo as taxas de crescimento relativo do índice (com relação ao Rio de Janeiro), ordenado de acordo com a data e a região. A taxa de crescimento relativo é calculada fazendo a diferença entreas taxas de crescimento de cada região e as taxas de crescimento da capital Rio de Janeiro.
+    '''
     
     if tipo in ['Índice de criminalidade', 'Lesões e Letalidades', 'Roubos', 'Furtos', 'Outros']:
     

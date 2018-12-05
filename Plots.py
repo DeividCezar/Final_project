@@ -4,7 +4,9 @@ alt.renderers.enable('notebook')
 
 # A seguinte função plota um gráfico de linhas mostrando a evolução da taxa de crescimento acima para cada uma das quatro regiões:
 def plot_taxa_de_crescimento(tipo): 
-    
+    '''
+    tipo: ['Índice de criminalidade', 'Lesões e Letalidades', 'Roubos', 'Furtos', 'Outros']. Retorna quatro gráficos de linha, cada um representando a evolução da taxa de crescimento do índice indicado ao longo do tempo (um para cada região).
+    '''
     if tipo in ['Índice de criminalidade', 'Lesões e Letalidades', 'Roubos', 'Furtos', 'Outros']:
         
         highlight = alt.selection(type='single', on='mouseover', fields=['Região'], nearest=True) # Destaque gráfico para a linha mais próxima
@@ -48,6 +50,9 @@ def plot_taxa_de_crescimento(tipo):
 
 # A seguinte função plota um gráfico de linhas mostrando a evolução da taxa de crescimento relativo acima para cada uma das quatro regiões:
 def plot_taxa_de_crescimento_relativo(tipo): 
+    '''
+    tipo: ['Índice de criminalidade', 'Lesões e Letalidades', 'Roubos', 'Furtos', 'Outros']. Retorna quatro gráficos de linha, cada um representando a evolução da taxa de crescimento relativo do índice indicado ao longo do tempo (um para cada região). A taxa de crescimento relativo é calculada fazendo a diferença entreas taxas de crescimento de cada região e as taxas de crescimento da capital Rio de Janeiro.
+    '''
     
     if tipo in ['Índice de criminalidade', 'Lesões e Letalidades', 'Roubos', 'Furtos', 'Outros']:
         

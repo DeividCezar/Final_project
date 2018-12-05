@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 import Dados as dd
 import altair as alt
-import geopandas as gspd
 
 # Criação do índice de criminalidade e dos índices em grupo:
 
